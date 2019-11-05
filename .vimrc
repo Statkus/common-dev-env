@@ -20,13 +20,19 @@ set autoread
 let mapleader = ","
 
 " Enable mouse
-"set mouse=a
+set mouse=n
+
+" Scroll off
+set scrolloff=15
+
+" Theme color
+color desert
 
 """"""""""""""""""""""""""""""""""""""""
 " => UI
 """"""""""""""""""""""""""""""""""""""""
 " Always show current position
-"set ruler
+set ruler
 
 " Show line numbers
 set number
@@ -67,9 +73,9 @@ syntax on
 highlight ExtraWhitespace ctermbg=red guibg=red
 autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 
-" Show a gutter on the right at 80 chars
-"highlight ColorColumn ctermbg=0 guibg=lightgrey
-"set colorcolumn=80
+" Show a gutter on the right at 100 chars
+highlight ColorColumn ctermbg=0 guibg=lightgrey
+set colorcolumn=100
 
 """"""""""""""""""""""""""""""""""""""""
 " => Files, backups and undo
@@ -82,15 +88,16 @@ autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
 """"""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
 """"""""""""""""""""""""""""""""""""""""
-" Use spaces instead of tabs
-set expandtab
+" 1 tab = 4 spaces by default
+set tabstop=4
+set shiftwidth=4
+
+autocmd FileType ada set tabstop=3
+autocmd FileType ada set shiftwidth=3
+autocmd FileType ada set expandtab
 
 " Use tabs or spaces smartly
 set smarttab
-
-" 1 tab = 3 spaces by default
-set tabstop=3
-set shiftwidth=3
 
 " TODO: add a comment
 set formatoptions+=j
@@ -100,7 +107,7 @@ set nojoinspaces
 " => Status line
 """"""""""""""""""""""""""""""""""""""""
 " Always show the status line
-"set laststatus=2
+set laststatus=2
 
 """"""""""""""""""""""""""""""""""""""""
 " => Moving around
