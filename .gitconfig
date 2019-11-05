@@ -1,0 +1,9 @@
+[core]
+	editor = nvim
+
+[merge]
+	conflictstyle = diff3
+
+[alias]
+	amend-to = "!f() { SHA=`git rev-parse \"$1\"`; git commit --fixup \"$SHA\" && GIT_SEQUENCE_EDITOR=true git rebase --interactive --autostash --autosquash \"$SHA^\"; }; f"
+	lg = log --color --graph --pretty=format:'%Cred%h%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset'
