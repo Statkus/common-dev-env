@@ -139,6 +139,16 @@ nnoremap U <C-R>
 nnoremap <leader>o o<Esc>k
 nnoremap <leader>O O<Esc>j
 
+" No highlight shortcut
+nnoremap <silent> <leader><space> :nohl<CR>
+
+" Go to start of the command line with ctrl-A as in standard terminal
+cmap <C-A> <home>
+
+" Build and format shortcut
+nnoremap <F2> :!make<CR>
+nnoremap <F3> :%!make format %<CR>
+
 " You should not use arrows to move
 "map <Up> <Nop>
 "map <Down> <Nop>
