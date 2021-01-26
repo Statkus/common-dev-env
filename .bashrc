@@ -120,3 +120,7 @@ export PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\
 
 alias pdf='evince'
 alias image='eog'
+
+alias rmtool='/opt/rmtool/launcher.sh --reqs ~/workspace/pulsar-requirements --arts ~/workspace/pulsar-software'
+
+alias pulsar-dev='docker start pulsar-dev && docker attach pulsar-dev'
