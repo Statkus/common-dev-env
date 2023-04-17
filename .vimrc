@@ -56,7 +56,7 @@ highlight incsearch cterm=underline
 set showmatch
 
 " Show invisible characters
-"set list listchars=nbsp:·,tab:¬·,trail:¤,extends:▶,precedes:◀
+set list listchars=nbsp:·,tab:¬·,trail:¤,extends:▶,precedes:◀
 
 """"""""""""""""""""""""""""""""""""""""
 " => Folding
@@ -96,6 +96,10 @@ autocmd FileType ada set tabstop=3
 autocmd FileType ada set shiftwidth=3
 autocmd FileType ada set expandtab
 
+autocmd FileType c set tabstop=2
+autocmd FileType c set shiftwidth=2
+autocmd FileType c set expandtab
+
 " Use tabs or spaces smartly
 set smarttab
 
@@ -130,7 +134,7 @@ set splitright
 " => Useful mappings
 """"""""""""""""""""""""""""""""""""""""
 " Make jk working as <Esc> key
-"imap jk <Esc>
+imap jk <Esc>
 
 " Make capital U working as ctrl+R (so it reverses u)
 nnoremap U <C-R>
@@ -145,9 +149,26 @@ nnoremap <silent> <leader><space> :nohl<CR>
 " Go to start of the command line with ctrl-A as in standard terminal
 cmap <C-A> <home>
 
-" Build and format shortcut
-nnoremap <F2> :!make<CR>
-nnoremap <F3> :%!make format %<CR>
+" Format shortcut
+nnoremap <silent> <F2> :w<CR>:mark a<CR>:%!make format-file FILE=%<CR>:'a<CR>
+nnoremap <silent> <F3> :w<CR>:mark a<CR>:%!docker run --entrypoint="" -v /home/leo/workspace:/home/dev/ -w $(pwd \| sed -e 's/leo\/workspace/dev/g') --rm --name pulsar-format registry.pulsar.hionos.com/pulsar-dev-tools /bin/bash -c "make FORMAT_SRC='--pipe %' format"<CR>:1,3d<cr>:'a+3<CR>
+
+" Markdown preview support
+noremap <silent> <F4> :call OpenMarkdownPreview()<CR>
+
+function! OpenMarkdownPreview() abort
+  if exists('s:markdown_job_id') && s:markdown_job_id > 0
+    call jobstop(s:markdown_job_id)
+    unlet s:markdown_job_id
+  endif
+  let available_port = system(
+    \ "lsof -s tcp:listen -i :40500-40800 | awk -F ' *|:' '{ print $10 }' | sort -n | tail -n1"
+    \ ) + 1
+  if available_port == 1 | let available_port = 40500 | endif
+  let s:markdown_job_id = jobstart('grip ' . shellescape(expand('%:p')) . ' :' . available_port)
+  if s:markdown_job_id <= 0 | return | endif
+  call system('firefox http://localhost:' . available_port)
+endfunction
 
 " You should not use arrows to move
 "map <Up> <Nop>
